@@ -1,6 +1,8 @@
 # jorttconnector
-Jortt API connector for creating invoices in https://www.jortt.nl/
 
+Create invoices in Jortt (www.jortt.nl) with the Jortt API connector.
+
+###Usage
 Usage is straight forward, to create an invoice:
 
 ```        
@@ -17,3 +19,15 @@ Usage is straight forward, to create an invoice:
 
 For more information on the API, check https://www.jortt.nl/koppelingen/api/
 
+####Maven artifact
+
+```
+    <dependency>
+      <groupId>com.getehour.connector.jortt</groupId>
+      <artifactId>jorttconnector</artifactId>
+      <version>1.0</version>
+    </dependency>
+```
+
+Thies Edeling
+https://getehour.com/
