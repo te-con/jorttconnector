@@ -24,7 +24,7 @@ public class JorttInvoice {
         this.lineItems = lineItems;
     }
 
-    public JorttInvoice(int i, List<JorttInvoiceLineItem> lineItems) {
+    public JorttInvoice(List<JorttInvoiceLineItem> lineItems) {
         this.lineItems = lineItems;
     }
 
