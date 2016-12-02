@@ -3,9 +3,6 @@ package com.getehour.connector.jortt;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,17 +14,10 @@ import java.util.Optional;
 public class JorttConnector {
     private static final Logger LOGGER = LoggerFactory.getLogger(JorttConnector.class);
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    private HttpExecutor httpExecutor;
 
-    public JorttConnector(HttpExecutor httpExecutor) {
-        this.httpExecutor = httpExecutor;
-    }
-
-    public boolean validateApiKey(JorttApiConfig apiConfig) {
-        HttpGet httpGet = new HttpGet(apiConfig.getBaseUrl() + "/customers");
-
+    public boolean validateApiKey(HttpExecutor httpExecutor) {
         try {
-            return httpExecutor.execute(httpGet, (statusCode)-> {
+            return httpExecutor.get("/customers", (statusCode)-> {
                 boolean okResponse = statusCode == HttpStatus.SC_OK;
 
                 if (okResponse) {
@@ -43,19 +33,10 @@ public class JorttConnector {
         }
     }
 
-    public Optional<String> createInvoice(JorttApiConfig apiConfig, JorttInvoice invoice) {
+    public Optional<String> createInvoice(HttpExecutor httpExecutor, JorttInvoice invoice) {
 
         try {
-            String invoiceJson = MAPPER.writeValueAsString(invoice);
-
-            StringEntity input = new StringEntity(invoiceJson);
-
-            input.setContentEncoding("application/json");
-
-            HttpPost post = new HttpPost(apiConfig.getBaseUrl() + "/invoices");
-            post.setEntity(input);
-
-            return httpExecutor.execute(post, this::parseInvoiceCreationResponse);
+            return httpExecutor.post("/invoices", invoice, this::parseInvoiceCreationResponse);
         } catch (IOException e) {
             LOGGER.error("Failed to connect to Jortt API", e);
         }
