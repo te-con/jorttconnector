@@ -19,23 +19,23 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class HttpExecutor {
-    private JorttApiConfig apiConfig;
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private String jorttBaseUrl;
 
-    public HttpExecutor(JorttApiConfig apiConfig) {
-        this.apiConfig = apiConfig;
+    public HttpExecutor(String jorttBaseUrl) {
+        this.jorttBaseUrl = jorttBaseUrl;
     }
 
-    <T> T post(String endpoint, Object data, BiFunction<Integer, InputStream, T> consume) throws IOException {
+    <T> T post(String endpoint, Object data, String username, String apiKey, BiFunction<Integer, InputStream, T> consume) throws IOException {
         String invoiceJson = MAPPER.writeValueAsString(data);
 
         StringEntity input = new StringEntity(invoiceJson);
         input.setContentEncoding("application/json");
 
-        HttpPost post = new HttpPost(apiConfig.getBaseUrl() + endpoint);
+        HttpPost post = new HttpPost(jorttBaseUrl + endpoint);
         post.setEntity(input);
 
-        try (CloseableHttpClient httpclient = createHttpClient();
+        try (CloseableHttpClient httpclient = createHttpClient(username, apiKey);
              CloseableHttpResponse response = httpclient.execute(post)) {
             int statusCode = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
@@ -43,19 +43,19 @@ public class HttpExecutor {
         }
     }
 
-    <T> T get(String endpoint, Function<Integer, T> consume) throws IOException {
-        HttpGet request = new HttpGet(apiConfig.getBaseUrl() + endpoint);
+    <T> T get(String endpoint, String username, String apiKey, Function<Integer, T> consume) throws IOException {
+        HttpGet request = new HttpGet(jorttBaseUrl + endpoint);
 
-        try (CloseableHttpClient httpclient = createHttpClient();
+        try (CloseableHttpClient httpclient = createHttpClient(username, apiKey);
              CloseableHttpResponse response = httpclient.execute(request)) {
             int statusCode = response.getStatusLine().getStatusCode();
             return consume.apply(statusCode);
         }
     }
 
-    private CloseableHttpClient createHttpClient() {
+    private CloseableHttpClient createHttpClient(String username, String apiKey) {
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(apiConfig.getUsername(), apiConfig.getApiKey()));
+        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, apiKey));
 
         return HttpClientBuilder.create().setDefaultCredentialsProvider(credentialsProvider).build();
     }

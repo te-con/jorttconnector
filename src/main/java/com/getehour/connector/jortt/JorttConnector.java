@@ -14,10 +14,15 @@ import java.util.Optional;
 public class JorttConnector {
     private static final Logger LOGGER = LoggerFactory.getLogger(JorttConnector.class);
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private final HttpExecutor httpExecutor;
 
-    public boolean validateApiKey(HttpExecutor httpExecutor) {
+    public JorttConnector(HttpExecutor httpExecutor) {
+        this.httpExecutor = httpExecutor;
+    }
+
+    public boolean validateApiKey(String username, String apiKey) {
         try {
-            return httpExecutor.get("/customers", (statusCode)-> {
+            return httpExecutor.get("/customers", username, apiKey, (statusCode) -> {
                 boolean okResponse = statusCode == HttpStatus.SC_OK;
 
                 if (okResponse) {
@@ -33,10 +38,10 @@ public class JorttConnector {
         }
     }
 
-    public Optional<String> createInvoice(HttpExecutor httpExecutor, JorttInvoice invoice) {
+    public Optional<String> createInvoice(JorttInvoice invoice, String username, String apiKey) {
 
         try {
-            return httpExecutor.post("/invoices", invoice, this::parseInvoiceCreationResponse);
+            return httpExecutor.post("/invoices", invoice, username, apiKey, this::parseInvoiceCreationResponse);
         } catch (IOException e) {
             LOGGER.error("Failed to connect to Jortt API", e);
         }
@@ -44,7 +49,7 @@ public class JorttConnector {
         return Optional.empty();
     }
 
-    private Optional<String> parseInvoiceCreationResponse(Integer statusCode, InputStream inputStream)  {
+    private Optional<String> parseInvoiceCreationResponse(Integer statusCode, InputStream inputStream) {
         try {
             boolean okResponse = statusCode == HttpStatus.SC_CREATED;
             if (okResponse) {
