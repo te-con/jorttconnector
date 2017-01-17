@@ -26,7 +26,7 @@ public class JorttConnector {
                 boolean okResponse = statusCode == HttpStatus.SC_OK;
 
                 if (okResponse) {
-                    LOGGER.info("Succesfull authentication with Jortt API");
+                    LOGGER.info("Succesful authentication with Jortt API");
                 } else {
                     LOGGER.warn("Got response {} on authentication request with Jortt API", statusCode);
                 }
@@ -39,7 +39,6 @@ public class JorttConnector {
     }
 
     public Optional<String> createInvoice(JorttInvoice invoice, String username, String apiKey) {
-
         try {
             return httpExecutor.post("/invoices", invoice, username, apiKey, this::parseInvoiceCreationResponse);
         } catch (IOException e) {
@@ -72,5 +71,4 @@ public class JorttConnector {
             return Optional.empty();
         }
     }
-
 }

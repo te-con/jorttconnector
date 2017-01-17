@@ -18,19 +18,19 @@ import java.io.InputStream;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class HttpExecutor {
+class HttpExecutor {
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private String jorttBaseUrl;
 
-    public HttpExecutor(String jorttBaseUrl) {
+    HttpExecutor(String jorttBaseUrl) {
         this.jorttBaseUrl = jorttBaseUrl;
     }
 
     <T> T post(String endpoint, Object data, String username, String apiKey, BiFunction<Integer, InputStream, T> consume) throws IOException {
         String invoiceJson = MAPPER.writeValueAsString(data);
 
-        StringEntity input = new StringEntity(invoiceJson);
-        input.setContentEncoding("application/json");
+        StringEntity input = new StringEntity(invoiceJson, "UTF-8");
+        input.setContentType("application/json");
 
         HttpPost post = new HttpPost(jorttBaseUrl + endpoint);
         post.setEntity(input);
