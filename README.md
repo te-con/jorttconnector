@@ -24,7 +24,7 @@ For more information on the API, check https://www.jortt.nl/koppelingen/api/
     <dependency>
       <groupId>com.getehour.connector.jortt</groupId>
       <artifactId>jorttconnector</artifactId>
-      <version>1.1</version>
+      <version>1.2</version>
     </dependency>
 ```
 
