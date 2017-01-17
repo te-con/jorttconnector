@@ -18,11 +18,11 @@ import java.io.InputStream;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-class HttpExecutor {
+public class HttpExecutor {
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private String jorttBaseUrl;
 
-    HttpExecutor(String jorttBaseUrl) {
+    public HttpExecutor(String jorttBaseUrl) {
         this.jorttBaseUrl = jorttBaseUrl;
     }
 
