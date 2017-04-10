@@ -51,19 +51,19 @@ public class JorttConnector {
     private Optional<String> parseInvoiceCreationResponse(Integer statusCode, InputStream inputStream) {
         try {
             boolean okResponse = statusCode == HttpStatus.SC_CREATED;
+
+            TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {
+            };
+
+            HashMap<String, Object> o = MAPPER.readValue(inputStream, typeRef);
+
             if (okResponse) {
-                TypeReference<HashMap<String, Object>> typeRef
-                        = new TypeReference<HashMap<String, Object>>() {
-                };
-
-                HashMap<String, Object> o = MAPPER.readValue(inputStream, typeRef);
-
                 Object invoiceId = o.get("invoice_id");
                 LOGGER.info("Creating invoice in Jortt API: {}", invoiceId);
 
                 return Optional.of((String) invoiceId);
             } else {
-                LOGGER.warn("Got failed response {} on invoice creation in Jortt", statusCode);
+                LOGGER.warn("Got failed response {} on invoice creation in Jortt: {}", statusCode, o);
                 return Optional.empty();
             }
         } catch (Exception e) {
