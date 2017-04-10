@@ -41,7 +41,7 @@ public class JorttConnectorTest {
     @Test
     public void should_be_ok_when_response_is_200() throws IOException {
         ArgumentCaptor<Function<Integer, Boolean>> lambdaCapture = lambdaCapture();
-        when(httpExecutor.get(eq("/customers"), eq("u"), eq("api"), lambdaCapture.capture())).thenReturn(true);
+        when(httpExecutor.get(eq("/customers/all"), eq("u"), eq("api"), lambdaCapture.capture())).thenReturn(true);
 
         assertTrue(connector.validateApiKey("u", "api"));
 
@@ -51,7 +51,7 @@ public class JorttConnectorTest {
     @Test
     public void should_not_be_ok_when_response_is_not_200() throws IOException {
         ArgumentCaptor<Function<Integer, Boolean>> lambdaCapture = lambdaCapture();
-        when(httpExecutor.get(eq("/customers"), eq("u"), eq("api"), lambdaCapture.capture())).thenReturn(false);
+        when(httpExecutor.get(eq("/customers/all"), eq("u"), eq("api"), lambdaCapture.capture())).thenReturn(false);
 
         assertFalse(connector.validateApiKey("u", "api"));
 

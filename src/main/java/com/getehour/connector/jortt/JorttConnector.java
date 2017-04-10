@@ -22,7 +22,7 @@ public class JorttConnector {
 
     public boolean validateApiKey(String username, String apiKey) {
         try {
-            return httpExecutor.get("/customers", username, apiKey, (statusCode) -> {
+            return httpExecutor.get("/customers/all", username, apiKey, (statusCode) -> {
                 boolean okResponse = statusCode == HttpStatus.SC_OK;
 
                 if (okResponse) {
