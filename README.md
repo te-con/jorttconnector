@@ -4,14 +4,14 @@ Get customers from and create invoices in Jortt (www.jortt.nl) with the Jortt AP
 
 ### Usage
 
-To validate an API key:
+#### To validate an API key:
 ```        
         HttpExecutor executor = new HttpExecutor("https://app.jortt.nl/api");
         JorttConnector jorttConnector = new JorttConnector(executor);
         boolean valid = jorttConnector.validateApiKey(new JorttCredentials("<your username>", "<your apikey>"));
 ```
 
-To get all customers:
+#### To get all customers:
 ```        
         HttpExecutor executor = new HttpExecutor("https://app.jortt.nl/api");
         JorttConnector jorttConnector = new JorttConnector(executor);
@@ -19,7 +19,7 @@ To get all customers:
         List<JorttCustomer> customers= jorttConnector.findCustomers(new JorttCredentials("<your username>", "<your apikey>"));
 ```
 
-To create an invoice:
+#### To create an invoice:
 
 ```        
         HttpExecutor executor = new HttpExecutor("https://app.jortt.nl/api");
