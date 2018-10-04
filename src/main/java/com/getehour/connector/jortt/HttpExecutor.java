@@ -15,8 +15,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class HttpExecutor {
     private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -26,30 +24,31 @@ public class HttpExecutor {
         this.jorttBaseUrl = jorttBaseUrl;
     }
 
-    <T> T post(String endpoint, Object data, String username, String apiKey, BiFunction<Integer, InputStream, T> consume) throws IOException {
-        String invoiceJson = MAPPER.writeValueAsString(data);
+    <T> T post(String endpoint, Object data, JorttCredentials credentials, ThrowingBiFunction<Integer, InputStream, T> consume) throws IOException, ApiException {
+        String json = MAPPER.writeValueAsString(data);
 
-        StringEntity input = new StringEntity(invoiceJson, "UTF-8");
+        StringEntity input = new StringEntity(json, "UTF-8");
         input.setContentType("application/json");
 
         HttpPost post = new HttpPost(jorttBaseUrl + endpoint);
         post.setEntity(input);
 
-        try (CloseableHttpClient httpclient = createHttpClient(username, apiKey);
-             CloseableHttpResponse response = httpclient.execute(post)) {
+        try (CloseableHttpClient httpclient = createHttpClient(credentials.getUsername(), credentials.getApiKey());
+            CloseableHttpResponse response = httpclient.execute(post)) {
             int statusCode = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
             return consume.apply(statusCode, entity.getContent());
         }
     }
 
-    <T> T get(String endpoint, String username, String apiKey, Function<Integer, T> consume) throws IOException {
+    <T> T get(String endpoint, JorttCredentials credentials, ThrowingBiFunction<Integer, InputStream, T> consume) throws ApiException, IOException {
         HttpGet request = new HttpGet(jorttBaseUrl + endpoint);
 
-        try (CloseableHttpClient httpclient = createHttpClient(username, apiKey);
-             CloseableHttpResponse response = httpclient.execute(request)) {
+        try (CloseableHttpClient httpClient = createHttpClient(credentials.getUsername(), credentials.getApiKey());
+             CloseableHttpResponse response = httpClient.execute(request)) {
             int statusCode = response.getStatusLine().getStatusCode();
-            return consume.apply(statusCode);
+            HttpEntity entity = response.getEntity();
+            return consume.apply(statusCode, entity.getContent());
         }
     }
 
