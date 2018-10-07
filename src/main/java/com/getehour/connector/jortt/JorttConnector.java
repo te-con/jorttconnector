@@ -55,7 +55,6 @@ public class JorttConnector {
         } catch (IOException e) {
             throw new ApiException("Failed to parse response", e);
         }
-
     }
 
     public List<JorttCustomer> findCustomers(JorttCredentials credentials) throws ApiException, IOException {
@@ -87,7 +86,7 @@ public class JorttConnector {
                 throw new ApiException("Failed to parse response", e);
             }
         } else {
-            throw new ApiException(statusCode, "Invalid response from API");
+            throw new ApiException(statusCode, "Invalid response from API: " + statusCode);
         }
     }
 }
