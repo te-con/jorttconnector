@@ -5,8 +5,8 @@ public class JorttCredentials {
     private final String apiKey;
 
     public JorttCredentials(String username, String apiKey) {
-        this.username = username;
-        this.apiKey = apiKey;
+        this.username = username != null ? username.trim() : null;
+        this.apiKey = apiKey != null ? apiKey.trim() : null;
     }
 
     public String getUsername() {

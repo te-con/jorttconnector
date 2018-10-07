@@ -1,27 +1,44 @@
 package com.getehour.connector.jortt;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonTypeName("customer")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JorttCustomer {
     private String customerId;
+    @JsonProperty("finance_company_name")
     private String companyName;
+
+    @JsonProperty("finance_address_street")
     private String addressStreet;
+
+    @JsonProperty("finance_address_city")
     private String addressCity;
+
+    @JsonProperty("finance_address_postal_code")
     private String addressPostalCode;
+
+    @JsonProperty("finance_address_country_code")
     private String addressCountryCode;
+
+    @JsonProperty("finance_address_country_name")
     private String addressCountryName;
+
+    @JsonProperty("finance_attn")
     private String addressHeading;
+
+    @JsonProperty("finance_email")
     private String addressEmail;
+
+    @JsonProperty("finance_extra_information")
     private String financeExtraInfo;
+
     private String vatNumber;
     private Integer paymentTerm;
     private String invoiceLanguage;
+
+    private Boolean deleted;
 
     public String getCustomerId() {
         return customerId;
@@ -125,5 +142,22 @@ public class JorttCustomer {
 
     public void setInvoiceLanguage(String invoiceLanguage) {
         this.invoiceLanguage = invoiceLanguage;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    @Override
+    public String toString() {
+        return "JorttCustomer{" +
+                "customerId='" + customerId + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", deleted=" + deleted +
+                '}';
     }
 }
