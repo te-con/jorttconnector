@@ -1,5 +1,7 @@
-build
-build/**
-*.iml
-.idea
-.idea/**
+/build
+/build/**
+/*.iml
+/.idea
+/.idea/**
+/out
+/out/**
