@@ -38,7 +38,7 @@ public class JorttCustomer {
     private Integer paymentTerm;
     private String invoiceLanguage;
 
-    private Boolean deleted;
+    private boolean deleted;
 
     public String getCustomerId() {
         return customerId;
@@ -144,11 +144,11 @@ public class JorttCustomer {
         this.invoiceLanguage = invoiceLanguage;
     }
 
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 
