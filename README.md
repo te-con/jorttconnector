@@ -33,15 +33,5 @@ Get customers from and create invoices in Jortt (www.jortt.nl) with the Jortt AP
 
 For more information on the API, check https://www.jortt.nl/koppelingen/api/
 
-#### Maven artifact
-
-```
-    <dependency>
-      <groupId>com.getehour.connector.jortt</groupId>
-      <artifactId>jorttconnector</artifactId>
-      <version>1.3.0</version>
-    </dependency>
-```
-
 Thies Edeling
 https://getehour.com/

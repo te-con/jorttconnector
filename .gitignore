@@ -5,3 +5,4 @@
 /.idea/**
 /out
 /out/**
+/gradle.properties
