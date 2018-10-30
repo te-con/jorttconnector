@@ -1,6 +1,7 @@
 package com.getehour.connector.jortt;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class JorttInvoiceLineItem {
     private BigDecimal vat;
@@ -32,5 +33,25 @@ public class JorttInvoiceLineItem {
 
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        JorttInvoiceLineItem that = (JorttInvoiceLineItem) o;
+        return Objects.equals(vat, that.vat) &&
+                Objects.equals(amount, that.amount) &&
+                Objects.equals(quantity, that.quantity) &&
+                Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vat, amount, quantity, description);
     }
 }
