@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.util.*;
 
 @SuppressWarnings("WeakerAccess")
+@Deprecated
 public class JorttConnector {
     private static final Logger LOGGER = LoggerFactory.getLogger(JorttConnector.class);
     private static final ObjectMapper MAPPER = new ObjectMapper();

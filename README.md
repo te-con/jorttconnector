@@ -1,3 +1,7 @@
+# Deprecated
+
+The connector uses Jortt's old API key authentication which is no longer supported.
+
 # jorttconnector
 
 Get customers from and create invoices in Jortt (www.jortt.nl) with the Jortt API connector.
